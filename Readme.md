@@ -1,0 +1,1 @@
+This repo contains some prototypes I do in different languages to understand certain concepts and gain some practical knowledge
