@@ -1,5 +1,9 @@
 package main
 
+import (
+	"math/rand"
+)
+
 type Entry struct {
 	key   string
 	value int
@@ -10,16 +14,18 @@ type HashMap struct {
 	capacity int
 }
 
+var HASH_SECRET int = rand.Int()
+
 func hash(key string) int {
-	h := 0
+	h := HASH_SECRET
 	for i, _ := range key {
-		h += h*i + i
+		h = int(key[i]) + (h<<5)*(h>>len(key))
 	}
-	return h
+	return h ^ (h >> 16)
 }
 
 func (hm *HashMap) getIndex(key string) int {
-	return hash(key) % hm.capacity
+	return hash(key) & (hm.capacity - 1)
 }
 
 func (hashMap *HashMap) set(key string, value int) {

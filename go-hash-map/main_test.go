@@ -66,3 +66,34 @@ func TestLoad(t *testing.T) {
 	}
 	m.Report()
 }
+
+func TestHash(t *testing.T) {
+	hash1 := hash("hello")
+	hash2 := hash("hello")
+	t.Log(hash1, hash2)
+	if hash1 != hash2 {
+		t.Fatal("Inconsitent Hash")
+	}
+	t.Log("SUCCESS")
+}
+
+func TestIndexSpreading(t *testing.T) {
+	hm := NewMap(64)
+	index1 := hm.getIndex("key-1")
+	index2 := hm.getIndex("key-2")
+	index3 := hm.getIndex("key-3")
+	index4 := hm.getIndex("key-4")
+	index5 := hm.getIndex("key-5")
+	t.Log(index1, index2, index3, index4, index5)
+	indexMap := map[int]int{
+		index1: index1,
+		index2: index2,
+		index3: index3,
+		index4: index4,
+		index5: index5,
+	}
+	if len(indexMap) <= 3 {
+		t.Fatal("Uneven distribution")
+	}
+	t.Log("SUCCESS")
+}
